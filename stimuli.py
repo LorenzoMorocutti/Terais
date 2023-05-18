@@ -14,7 +14,7 @@ import subprocess
 seq=[0,1,2]
 random.shuffle(seq)
 global win
-script_path = "/root/StimuliVal/drawing.py"
+script_path = "/home/icub/Desktop/Terais/drawing.py"
 
 def state_machine(seq):
     for i in seq:
@@ -77,9 +77,52 @@ def wait_touch():
     return
 
 
+def write_keyboard(what_to_write):
+    count = 0
+
+
+    text = visual.TextStim(win, text=what_to_write, color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
+    text.draw()
+#    button = visual.ButtonStim(win, text="1", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+#                               pos=[-200, -250], size=(100, 100), units='pix')
+#    button2 = visual.ButtonStim(win, text="2", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+#                                pos=[200, -250], size=(100, 100), units='pix')
+#    button.draw()
+#    button2.draw()
+    win.flip()
+
+    print(count)
+
+    print("I'm in write keyboard")
+
+    keys = event.waitKeys(keyList='return')
+
+    print(keys)
+
+    print("enter pressed")
+
+    time.sleep(0.1)
+
+    return
+def wait_until_enter():
+    print("I'm in wait until enter")
+    event.waitKeys(keyList='ctrl')
+    print("enter pressed")
+    write_something("va bene?")
+
+    return
+
+def run_subprocess():
+    draw = subprocess.Popen(["python3", script_path])
+    print(draw)
+
+    wait_until_enter()
+
+    return
+
 def configure():
 
-    global win, widthPix, heightPix, monitorWidth, viewdist, monitorname, scrn, mon, myMouse
+    global win, widthPix, heightPix, monitorWidth, viewdist, monitorname, scrn, mon, myMouse, myKey
 
     widthPix = 1920
     heightPix = 1080
@@ -102,7 +145,9 @@ def configure():
         fullscr=True
     )
 
+
     myMouse = event.Mouse(win)
+
 
     return
 
@@ -113,10 +158,14 @@ def main():
     write_something("Clicca per andare avanti")
     #black_window()
     #wait_touch()
-    draw = subprocess.run(["python3", script_path])
-    wait_touch()
+    #run_subprocess()
+    write_keyboard("premi ctrl per andare avanti")
+
+    black_window()
 
 
 
 if __name__ == '__main__':
     main()
+
+    sys.exit()

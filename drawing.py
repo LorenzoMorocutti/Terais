@@ -6,8 +6,8 @@ import time
 root = tk.Tk()
 
 # Set the dimensions of the drawing window
-window_width = 1920
-window_height = 950
+window_width = 500
+window_height = 500
 
 # Create the drawing canvas
 canvas = tk.Canvas(root, width=window_width, height=window_height, bg='white')
