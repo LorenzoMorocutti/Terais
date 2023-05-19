@@ -91,11 +91,18 @@ def write_keyboard(what_to_write):
 #    button2.draw()
     win.flip()
 
+
+
     print(count)
+
 
     print("I'm in write keyboard")
 
+    #subprocess.Popen(["python3", script_path])
+
     keys = event.waitKeys(keyList='return')
+
+    subprocess.Popen(["python3", script_path])
 
     print(keys)
 
@@ -158,8 +165,9 @@ def main():
     write_something("Clicca per andare avanti")
     #black_window()
     #wait_touch()
-    #run_subprocess()
-    write_keyboard("premi ctrl per andare avanti")
+
+    write_keyboard("premi enter per andare avanti")
+
 
     black_window()
 
