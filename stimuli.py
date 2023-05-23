@@ -17,6 +17,8 @@ random.shuffle(seq)
 categories = ['Ambulance', 'Owl', 'Flower']
 
 candidate = []
+number = ["1", "2", "3", "4", "5", "6", "7"]
+button = []
 
 global win
 
@@ -38,18 +40,11 @@ class Experiment(StateMachine):
 
 
     # creating states
-    artistic_state = State(initial=True)
-    drawing_state = State()
+    drawing_state = State(initial=True)
     questions_state = State(final=True)
 
     # transitions of the state
-    cycle = ( artistic_state.to(drawing_state, cond="artistic_completed")
-             | drawing_state.to(questions_state, cond="drawing_completed") )
-
-    def artistic_completed(self):
-        artistic_questions(self.index)
-
-        return
+    drawing_state.to(questions_state, cond="drawing_completed") )
 
     def drawing_completed(self):
         drawing_questions(self.index)
@@ -65,13 +60,17 @@ def state_machine(index):
 
 def artistic_questions(index):
 
-    text = visual.TextStim(win, text="How muc are you confident on your free-hand drawing skills?", color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
-    text.boundingBox(1200, 500)
+    text = visual.TextStim(win, text="How much are you confident on your free-hand drawing skills?", color=(0, 0, 0), pos=(0.0, 11.0),
+                           colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
-    button = visual.ButtonStim(win, text="1", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[-200, -250], size=(100, 100), units='pix')
-    button2 = visual.ButtonStim(win, text="2", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[200, -250], size=(100, 100), units='pix')
-    button.draw()
-    button2.draw()
+
+    space = 0
+
+    for i in range(1, 7):
+        button[i] = visual.ButtonStim(win, text=number[i], color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[-720+space, -250], size=(100, 100), units='pix')
+        button[i].draw()
+        space+=240
+
     win.flip()
 
     return
@@ -228,7 +227,7 @@ def configure():
 def main():
     configure()
 
-
+    artistic_questions()
 
     for i in seq:
         state_machine(i)
