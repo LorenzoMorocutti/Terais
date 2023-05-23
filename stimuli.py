@@ -10,22 +10,85 @@ import datetime
 import sys
 import numpy as np
 import subprocess
+from statemachine import StateMachine, State
 
-seq=[0,1,2]
+seq=[0,1,2] #0 is ambulance, 1 is owl, 2 is flower
 random.shuffle(seq)
+categories = ['Ambulance', 'Owl', 'Flower']
+
+candidate = []
+
 global win
+
 script_path = "/home/icub/Desktop/Terais/drawing.py"
 
-def state_machine(seq):
-    for i in seq:
-        print("ok")
+
+
+
+#How much do you enjoy hand drawing?
+#How often do you draw sketches?
+#Imagine 100 other people who have completed the drawing tasks. How many of them do you think would draw better sketches than yours: 0-100
+class Experiment(StateMachine):
+
+    index = 0
+
+    # defining constructor
+    def __init__(self, ind):
+        self.index = ind
+
+
+    # creating states
+    artistic_state = State(initial=True)
+    drawing_state = State()
+    questions_state = State(final=True)
+
+    # transitions of the state
+    cycle = ( artistic_state.to(drawing_state, cond="artistic_completed")
+             | drawing_state.to(questions_state, cond="drawing_completed") )
+
+    def artistic_completed(self):
+        artistic_questions(self.index)
+
+        return
+
+    def drawing_completed(self):
+        drawing_questions(self.index)
+
+        return
+
+
+
+def state_machine(index):
+    candidate[index] = Experiment(index)
+    return
+
+
+def artistic_questions(index):
+
+    text = visual.TextStim(win, text="How muc are you confident on your free-hand drawing skills?", color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
+    text.boundingBox(1200, 500)
+    text.draw()
+    button = visual.ButtonStim(win, text="1", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[-200, -250], size=(100, 100), units='pix')
+    button2 = visual.ButtonStim(win, text="2", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[200, -250], size=(100, 100), units='pix')
+    button.draw()
+    button2.draw()
+    win.flip()
+
+    return
+
+
+
+def drawing_questions(index):
+    return
+
 
 
 #function to write something simple on the screen
 def write_something(what_to_write):
     count = 0
 
-    text = visual.TextStim(win, text=what_to_write, color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
+    text = visual.TextStim(win, text="How much are you confident on your free-hand drawing skills?", color=(0, 0, 0), pos=(0.0, 11.0),
+                           colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", anchorVert="center", wrapWidth=500)
     text.draw()
     button = visual.ButtonStim(win, text="1", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[-200, -250], size=(100, 100), units='pix')
     button2 = visual.ButtonStim(win, text="2", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47], pos=[200, -250], size=(100, 100), units='pix')
@@ -54,7 +117,7 @@ def write_something(what_to_write):
 
 
 def black_window():
-    black_poly = visual.Polygon(win, edges=4, fillColor="black", pos=[0, 0], size=[105, 105], ori=45)
+    black_poly = visual.Polygon(win, edges=4, fillColor="black", pos=[0, 0], size=[400, 105], ori=0)
     black_poly.draw()
     win.flip()  # show the stim
     time.sleep(2)
@@ -77,12 +140,11 @@ def wait_touch():
     return
 
 
-def write_keyboard(what_to_write):
+def write_keyboard():
     count = 0
 
-
-    text = visual.TextStim(win, text=what_to_write, color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
-    text.draw()
+    text1 = visual.TextStim(win, text="clicca per andare avanti", color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
+    text1.draw()
 #    button = visual.ButtonStim(win, text="1", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
 #                               pos=[-200, -250], size=(100, 100), units='pix')
 #    button2 = visual.ButtonStim(win, text="2", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
@@ -100,32 +162,35 @@ def write_keyboard(what_to_write):
 
     #subprocess.Popen(["python3", script_path])
 
-    keys = event.waitKeys(keyList='return')
+    #keys = event.waitKeys(keyList='return')
 
-    subprocess.Popen(["python3", script_path])
+    #win.flip()
 
-    print(keys)
+    win.close()
+
+    p = subprocess.Popen(["python3", script_path], stdout=subprocess.PIPE)
+    p.wait()
+
+    #print(keys)
+
+
+
+    configure()
+    text2 = visual.TextStim(win, text="able to reopen psychopy", color=(0, 0, 0), colorSpace='rgb', bold=True, height=5.0)
+    text2.draw()
+    win.flip()
+
+    wait_touch()
+
+    black_window()
+
 
     print("enter pressed")
 
     time.sleep(0.1)
 
     return
-def wait_until_enter():
-    print("I'm in wait until enter")
-    event.waitKeys(keyList='ctrl')
-    print("enter pressed")
-    write_something("va bene?")
 
-    return
-
-def run_subprocess():
-    draw = subprocess.Popen(["python3", script_path])
-    print(draw)
-
-    wait_until_enter()
-
-    return
 
 def configure():
 
@@ -162,12 +227,17 @@ def configure():
 
 def main():
     configure()
+
+
+
+    for i in seq:
+        state_machine(i)
+
+
     write_something("Clicca per andare avanti")
-    #black_window()
-    #wait_touch()
 
-    write_keyboard("premi enter per andare avanti")
 
+    write_keyboard()
 
     black_window()
 

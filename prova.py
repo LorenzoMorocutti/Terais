@@ -1,32 +1,25 @@
+import subprocess
+import numpy as np
+
+a=3
+b = 45
+script_path = "/home/icub/Desktop/Terais/drawing.py"
+#script_path = "/home/icub/Desktop/Terais/prova_sub.py"
+
+res = subprocess.Popen(["python3", script_path, '0'], stdout=subprocess.PIPE)
+
+output = []
+output = res.stdout.read()
+
+array = np.fromstring(output.decode(), dtype=float, sep=',')
+
+#b[0] = float(output[0])
+#b[1] = int(output[1])
+#b[2] = float(output[2])
 
 
+print(array)
 
 
-import tkinter as tk
-import time
-
-root = tk.Tk()
-
-# Set the dimensions of the drawing window
-window_width = 1920
-window_height = 950
-
-# Create the drawing canvas
-canvas = tk.Canvas(root, width=window_width, height=window_height, bg='white')
-canvas.pack()
-
-
-
-def button_click():
-    msg = canvas.create_text(100, 80, anchor="nw", fill="darkgreen", font=('Meiryo', 10, 'bold'), text="registered")
-    root.after(2000, canvas.delete, msg)
-
-
-
-# *********************************
-
-button1 = tk.Button(root, text="register", command=button_click)
-button1_window = canvas.create_window(120, 100, anchor="nw", window=button1)
-
-root.mainloop()
+#print(a+b)
 

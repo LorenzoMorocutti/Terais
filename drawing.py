@@ -1,7 +1,10 @@
 import tkinter as tk
 import sys
 import time
+import numpy as np
 from PIL import Image, ImageTk, ImageGrab
+
+n = int(sys.argv[1])
 
 start = time.time()
 # Initialize Tkinter
@@ -11,7 +14,9 @@ root = tk.Tk()
 ######### CONFIGURATION OF THE GLOBAL VARIABLES OF THE CANVAS AND SCREENSHOTS ###########
 
 # Set dimensions of the screenshot
-savelocation = "/home/icub/Desktop/Terais/Images/participant_01/screen.png"
+savelocation = ["ambulance.png",
+                "owl.png",
+                "flower.png"]
 
 # Set the dimensions of the drawing window
 window_width = 1920
@@ -35,6 +40,9 @@ prev_y = None
 # Keep track of the number of strokes
 stroke_count = 0
 
+do_one_time = True
+total_drawing_time=0
+
 ############################### END OF THE CONFIGURATION ################################
 
 
@@ -42,9 +50,15 @@ stroke_count = 0
 ############ FUNCTIONS TO DRAW AND TO SAVE THE FINAL DRAWINGS #############
 # Define the event handler for mouse movements
 def on_mouse_move(event):
-    global prev_x, prev_y, stroke_count
+    global prev_x, prev_y, stroke_count, do_one_time, latency
+
+    while do_one_time:
+        latency = time.time() - start
+        do_one_time = False
+
     x = event.x
     y = event.y
+
     if prev_x is not None and prev_y is not None:
         canvas.create_line(prev_x, prev_y, x, y, fill=draw_color, width=draw_size, tags=('stroke', stroke_count))
     prev_x = x
@@ -53,29 +67,39 @@ def on_mouse_move(event):
 
 # Define the event handler for releasing the mouse button
 def on_mouse_release(event):
-    global prev_x, prev_y, stroke_count
+    global prev_x, prev_y, stroke_count, total_drawing_time
     prev_x = None
     prev_y = None
     stroke_count += 1
-    print(f"Number of strokes: {stroke_count}")
+    #print(f"Number of strokes: {stroke_count}")
+    #print(stroke_count)
 
     if stroke_count == 6:
         save_image()
-        root.destroy()
+        total_drawing_time = time.time()-start
+        quit_program()
 
 
 # Define the function to make a screenshot, crop it and save it in the right folder
 def save_image():
     time.sleep(2)
-    ImageGrab.grab().crop((40, 65, 1920, 1015)).save(savelocation)
-    temp = time.time() - start
-    print(temp)
+    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/home/icub/Desktop/Terais/Images/participant_01/" + savelocation[n])
 
 
 def quit_program():
-    ImageGrab.grab().crop((40, 65, 1920, 1015)).save(savelocation)
-    temp = time.time() - start
-    print(temp)
+    global total_drawing_time, latency, stroke_count
+
+    data = []
+
+    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/home/icub/Desktop/Terais/Images/participant_01/" + savelocation[n])
+    total_drawing_time = time.time()-start
+
+    data = np.array([
+        latency,
+        total_drawing_time,
+        stroke_count
+    ])
+    #print(','.join(map(str, data)))
     root.destroy()
 
 
