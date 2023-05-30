@@ -10,7 +10,7 @@ import datetime
 import sys
 import numpy as np
 import subprocess
-from statemachine import StateMachine, State
+#from statemachine import StateMachine, State
 import csv
 
 participant = sys.argv[1]
@@ -47,7 +47,7 @@ button = []
 
 global win
 
-script_path = "/home/icub/Desktop/Terais/drawing.py"
+script_path = "/root/StimuliVal/drawing.py"
 
 drawing_enjoyment = 0
 drawing_frequency = 0
@@ -133,7 +133,7 @@ def drawing_questions(n):
                            wrapWidth=500)
     text.draw()
 
-    image = visual.ImageStim(win, image="/home/icub/Desktop/Terais/Images/" + list_participant[int(number_of_participant)-1] + "/" + categories[n] + ".png", size=(600, 337),
+    image = visual.ImageStim(win, image="/root/StimuliVal/Images/" + list_participant[int(number_of_participant)-1] + "/" + categories[n] + ".png", size=(600, 337),
                              units='pix', pos=(0.0, -5.0))
     image.draw()
 
@@ -199,7 +199,7 @@ def drawing_activity(i):
 
 
 def drawing_task(n):
-    text = visual.TextStim(win, text="You have 60 seconds to draw the...\n", color=(0, 0, 0), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Please draw with your finger the...\n", color=(0, 0, 0), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
 
     text2 = visual.TextStim(win, text=categories[n], color=(1, 0, 0), pos=(0.0, -1.0),
@@ -386,8 +386,8 @@ def main():
     configure()
 
     text = visual.TextStim(win, text="Welcome to the experiment! It will be asked you to draw \n"
-                                     "different subjects in a limited time interval and then \n"
-                                     "to answer some simple questions. Are you ready? "
+                                     "different subjects and then to answer some simple questions. \n"
+                                     "Are you ready? "
                                      " \n\nClick to continue", color=(0, 0, 0), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()

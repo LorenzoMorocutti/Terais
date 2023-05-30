@@ -77,6 +77,7 @@ def on_mouse_move(event):
     while do_one_time:
         latency = time.time() - start
         do_one_time = False
+        root.after(60000, lambda: quit_program())
 
     x = event.x
     y = event.y
@@ -93,8 +94,6 @@ def on_mouse_release(event):
     prev_x = None
     prev_y = None
     stroke_count += 1
-    #print(f"Number of strokes: {stroke_count}")
-    #print(stroke_count)
 
     #if stroke_count == 6:
         #save_image()
@@ -105,7 +104,7 @@ def on_mouse_release(event):
 # Define the function to make a screenshot, crop it and save it in the right folder
 def save_image():
     time.sleep(2)
-    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/home/icub/Desktop/Terais/Images/" + participant[i] + "/" + savelocation[n])
+    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/root/StimuliVal/Images/" + participant[i] + "/" + savelocation[n])
 
 
 def quit_program():
@@ -113,7 +112,7 @@ def quit_program():
 
     data = []
 
-    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/home/icub/Desktop/Terais/Images/" + participant[i] + "/" + savelocation[n])
+    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/root/StimuliVal/Images/" + participant[i] + "/" + savelocation[n])
     total_drawing_time = time.time()-start
 
     data = np.array([
@@ -134,8 +133,6 @@ canvas.bind('<B1-Motion>', on_mouse_move)
 # Bind the mouse release event to the canvas
 canvas.bind('<ButtonRelease-1>', on_mouse_release)
 
-
-root.after(60000, root.destroy)
 
 # Start the main Tkinter event loop
 root.mainloop()
