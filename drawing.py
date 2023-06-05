@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image, ImageTk, ImageGrab
 
 n = int(sys.argv[1])
-i = int(sys.argv[2]) - 1
+participant = sys.argv[2]
 
 start = time.time()
 # Initialize Tkinter
@@ -15,30 +15,19 @@ root = tk.Tk()
 ######### CONFIGURATION OF THE GLOBAL VARIABLES OF THE CANVAS AND SCREENSHOTS ###########
 
 # Set dimensions of the screenshot
-savelocation = ["Ambulance.png",
-                "Owl.png",
-                "Flower.png"]
+savelocation = ["Ambulance.png", "Tractor.png", 
+                "Owl.png", "Train.png",
+                "Sheep.png", "LightBulb.png",
+                "Lion.png", "BirthdayCake.png",
+                "Bee.png", "Mermaid.png",
+                "Flower.png", "Spider",
+                "Leaf", "Pizza", "Face.png",
+                "Bus.png", "PalmThree.png"]
 
-participant = ["participant_01",
-               "participant_02",
-               "participant_03",
-               "participant_04",
-               "participant_05",
-               "participant_06",
-               "participant_07",
-               "participant_08",
-               "participant_09",
-               "participant_10",
-               "participant_11",
-               "participant_12",
-               "participant_13",
-               "participant_14",
-               "participant_15",
-               "participant_16",
-               "participant_17",
-               "participant_18",
-               "participant_19",
-               "participant_20"]
+
+####### CHANGE PATH
+path_images_folder = "/root/StimuliVal/Images/"
+
 
 # Set the dimensions of the drawing window
 window_width = 1920
@@ -104,7 +93,9 @@ def on_mouse_release(event):
 # Define the function to make a screenshot, crop it and save it in the right folder
 def save_image():
     time.sleep(2)
-    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/root/StimuliVal/Images/" + participant[i] + "/" + savelocation[n])
+
+    ####### HILLARY - PATH
+    ImageGrab.grab().crop((40, 65, 1920, 1015)).save(path_images_folder + participant + "/" + savelocation[n])
 
 
 def quit_program():
@@ -112,7 +103,8 @@ def quit_program():
 
     data = []
 
-    ImageGrab.grab().crop((40, 65, 1920, 1015)).save("/root/StimuliVal/Images/" + participant[i] + "/" + savelocation[n])
+    ####### HILLARY - PATH
+    ImageGrab.grab().crop((40, 65, 1920, 1015)).save(path_images_folder + participant + "/" + savelocation[n])
     total_drawing_time = time.time()-start
 
     data = np.array([

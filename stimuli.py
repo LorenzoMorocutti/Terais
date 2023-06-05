@@ -14,39 +14,27 @@ import subprocess
 import csv
 
 participant = sys.argv[1]
-number_of_participant = sys.argv[2]
 
-seq = [0, 1, 2]  # 0 is ambulance, 1 is owl, 2 is flower
+####### CHANGE THE PATH
+path_folder_participant = "/root/StimuliVal/Images/" + participant
+os.mkdir(path_folder_participant)
+
+seq = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]  # 0 is ambulance, 1 is owl, 2 is flower
 random.shuffle(seq)
-categories = ['Ambulance', 'Owl', 'Flower']
+categories = ['Ambulance', 'Tractor', 'Owl',
+              'Train', 'Sheep', 'LightBulb',
+              'Lion', 'BirthdayCake',
+              'Bee', 'Mermaid', 'Flower',
+              'Spider', 'Leaf', 'Pizza', 
+              'Face', 'Bus', 'PalmThree']
 
-list_participant = ["participant_01",
-                    "participant_02",
-                    "participant_03",
-                    "participant_04",
-                    "participant_05",
-                    "participant_06",
-                    "participant_07",
-                    "participant_08",
-                    "participant_09",
-                    "participant_10",
-                    "participant_11",
-                    "participant_12",
-                    "participant_13",
-                    "participant_14",
-                    "participant_15",
-                    "participant_16",
-                    "participant_17",
-                    "participant_18",
-                    "participant_19",
-                    "participant_20"]
 
-candidate = []
 number = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 button = []
 
 global win
 
+####### CHANGE THE PATH 
 script_path = "/root/StimuliVal/drawing.py"
 
 drawing_enjoyment = 0
@@ -64,7 +52,7 @@ number_of_strokes = [0, 0, 0]
 
 def drawing_questions(n):
     text = visual.TextStim(win, text="How difficult it was to draw the " + categories[n] + "? \n"
-                            "(1 - not difficult, 7 - extremely difficult)", color=(0, 0, 0),
+                            "(1 - not difficult, 7 - extremely difficult)", color=(1, 1, 1),
                            pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
@@ -72,7 +60,7 @@ def drawing_questions(n):
     space = 0
 
     for i in range(0, 7):
-        button.append(visual.ButtonStim(win, text=number[i], color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+        button.append(visual.ButtonStim(win, text=number[i], color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                               pos=[-720 + space, -250], size=(100, 100), units='pix'))
         space += 240
 
@@ -97,14 +85,14 @@ def drawing_questions(n):
 
     text = visual.TextStim(win, text="How much did you enjoy drawing the " + categories[n] + "? \n"
                             "(1 - not enjoyed, 7 - extremely enjoyed)",
-                           color=(0, 0, 0), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
+                           color=(1, 1, 1), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
 
     space = 0
 
     for i in range(0, 7):
-        button.append(visual.ButtonStim(win, text=number[i], color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+        button.append(visual.ButtonStim(win, text=number[i], color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                               pos=[-720 + space, -250], size=(100, 100), units='pix'))
         space += 240
 
@@ -129,18 +117,19 @@ def drawing_questions(n):
 
     text = visual.TextStim(win, text="How much do you like your drawing of the " + categories[n] + "? \n"
                             "(1 - not liked, 7 - liked a lot)",
-                           color=(0, 0, 0), pos=(0.0, 15.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
+                           color=(1, 1, 1), pos=(0.0, 15.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
 
-    image = visual.ImageStim(win, image="/root/StimuliVal/Images/" + list_participant[int(number_of_participant)-1] + "/" + categories[n] + ".png", size=(600, 337),
+
+    image = visual.ImageStim(win, image=path_folder_participant + "/" + categories[n] + ".png", size=(600, 337),
                              units='pix', pos=(0.0, -5.0))
     image.draw()
 
     space = 0
 
     for i in range(0, 7):
-        button.append(visual.ButtonStim(win, text=number[i], color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+        button.append(visual.ButtonStim(win, text=number[i], color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                               pos=[-720 + space, -300], size=(100, 100), units='pix'))
         space += 240
 
@@ -162,6 +151,7 @@ def drawing_questions(n):
     buttons = myMouse.getPressed()
     myMouse.clickReset(buttons)
 
+
     return
 
 
@@ -170,7 +160,7 @@ def drawing_activity(i):
     win.close()
     print("window closed, ready to open drawing")
 
-    p = subprocess.Popen(["python3", script_path, str(i), number_of_participant], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["python3", script_path, str(i), participant], stdout=subprocess.PIPE)
     p.wait()
 
     output = []
@@ -186,7 +176,7 @@ def drawing_activity(i):
 
     configure()
 
-    text = visual.TextStim(win, text="Thank you very much. \nNow please answer to some questions. \n\nClick to continue", color=(0, 0, 0), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Thank you very much. \nNow please answer to some questions. \n\nClick to continue", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
     win.flip()
@@ -199,10 +189,22 @@ def drawing_activity(i):
 
 
 def drawing_task(n):
-    text = visual.TextStim(win, text="Please draw with your finger the...\n", color=(0, 0, 0), pos=(0.0, 11.0),
+
+    text = visual.TextStim(win, text="Are you ready to draw? \n\nClick to continue", color=(1, 1, 1), pos=(0.0, 11.0),
+                           colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
+    text.draw()
+    win.flip()
+
+    wait_touch()
+    time.sleep(0.5)
+    buttons = myMouse.getPressed()
+    myMouse.clickReset(buttons)
+
+
+    text = visual.TextStim(win, text="Please draw with your finger the...\n", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
 
-    text2 = visual.TextStim(win, text=categories[n], color=(1, 0, 0), pos=(0.0, -1.0),
+    text2 = visual.TextStim(win, text=categories[n], color=(1, -0.7, -0.7), pos=(0.0, -1.0),
                            colorSpace='rgb', bold=True, height=5, anchorHoriz="center", wrapWidth=500)
 
     text.draw()
@@ -222,14 +224,14 @@ def drawing_task(n):
 def artistic_questions():
     global drawing_enjoyment, drawing_frequency, drawing_percentage
 
-    text = visual.TextStim(win, text="How much do you enjoy free-hand drawing? \n (1 - extremely little, 7 - extremely much)", color=(0, 0, 0),
+    text = visual.TextStim(win, text="How much do you enjoy free-hand drawing? \n (1 - extremely little, 7 - extremely much)", color=(1, 1, 1),
                            pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
 
     space = 0
 
     for i in range(0, 7):
-        button.append(visual.ButtonStim(win, text=number[i], color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+        button.append(visual.ButtonStim(win, text=number[i], color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                         pos=[-720 + space, -250], size=(100, 100), units='pix'))
         space += 240
 
@@ -251,14 +253,14 @@ def artistic_questions():
     buttons = myMouse.getPressed()
     myMouse.clickReset(buttons)
 
-    text = visual.TextStim(win, text="How often do you draw sketches? \n (1 - extremely little, 7 - extremely much)", color=(0, 0, 0),
+    text = visual.TextStim(win, text="How often do you draw sketches? \n (1 - extremely little, 7 - extremely much)", color=(1, 1, 1),
                            pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
 
     space = 0
 
     for i in range(0, 7):
-        button.append(visual.ButtonStim(win, text=number[i], color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+        button.append(visual.ButtonStim(win, text=number[i], color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                         pos=[-720 + space, -250], size=(100, 100), units='pix'))
         space += 240
 
@@ -283,18 +285,18 @@ def artistic_questions():
     text = visual.TextStim(win, text="Imagine other 100 people drawing the same sketches as yours: \n"
                                      " how many of them do you think will draw better than you \n "
                                      "(0% - almost no one, 100% - almost everyone)",
-                           color=(0, 0, 0), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
+                           color=(1, 1, 1), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
 
     space = 0
 
-    button.append(visual.ButtonStim(win, text="0%", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+    button.append(visual.ButtonStim(win, text="0%", color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                                     pos=[-800, -250], size=(100, 100), units='pix'))
 
     for i in range(0, 10):
 
-        button.append(visual.ButtonStim(win, text=number[i]+"0%", color=[0, 0, 0], colorSpace='rgb', fillColor=[0.5, 0.66, 0.47],
+        button.append(visual.ButtonStim(win, text=number[i]+"0%", color=[1, 1, 1], colorSpace='rgb', fillColor=[-0.3, -0.3, 0.9],
                               pos=[-640 + space, -250], size=(100, 100), units='pix'))
         space += 160
 
@@ -318,7 +320,7 @@ def artistic_questions():
     myMouse.clickReset(buttons)
 
     text = visual.TextStim(win, text="Thank you very much. \n Now the drawing task will begin. Click to continue.",
-                           color=(0, 0, 0), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5,
+                           color=(1, 1, 1), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5,
                            anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
@@ -368,7 +370,7 @@ def configure():
     win = visual.Window(
         monitor=mon,
         size=(widthPix, heightPix),
-        color=(0.58, 0.75, 0.54),
+        color=(-0.4, -0.4, 1),
         colorSpace='rgb',
         units='deg',
         screen=scrn,
@@ -388,7 +390,7 @@ def main():
     text = visual.TextStim(win, text="Welcome to the experiment! It will be asked you to draw \n"
                                      "different subjects and then to answer some simple questions. \n"
                                      "Are you ready? "
-                                     " \n\nClick to continue", color=(0, 0, 0), pos=(0.0, 11.0),
+                                     " \n\nClick to continue", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
     win.flip()
