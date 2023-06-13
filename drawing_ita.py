@@ -15,18 +15,18 @@ root = tk.Tk()
 ######### CONFIGURATION OF THE GLOBAL VARIABLES OF THE CANVAS AND SCREENSHOTS ###########
 
 # Set dimensions of the screenshot
-savelocation = ["Ambulance.png", "Tractor.png",
-                "Owl.png", "Train.png",
-                "Sheep.png", "Light Bulb.png",
-                "Lion.png", "Birthday Cake.png",
-                "Bee.png", "Mermaid.png",
-                "Flower.png", "Spider.png",
-                "Leaf.png", "Pizza.png", "Face.png",
-                "Bus.png", "Palm Three.png"]
+savelocation = ["Ambulanza.png", "Trattore.png",
+                "Gufo.png", "Treno.png",
+                "Pecora.png", "Lampadina.png",
+                "Leone.png", "Torta Di Compleanno.png",
+                "Ape.png", "Sirena Di Mare.png",
+                "Fiore.png", "Ragno.png",
+                "Foglia.png", "Pizza.png", "Volto.png",
+                "Bus.png", "Palma.png"]
 
 
 ####### CHANGE PATH
-path_images_folder = "/home/icub/Desktop/Terais/Images/"
+path_images_folder = "/home/icub/Desktop/Terais/Immagini/"
 
 
 # Set the dimensions of the drawing window
@@ -37,7 +37,7 @@ window_height = 950
 canvas = tk.Canvas(root, width=window_width, height=window_height, bg='white')
 canvas.pack()
 
-button = tk.Button(text="If you finished, press the button", command=lambda: quit_program(), height=4)
+button = tk.Button(text="Se hai finito, premi il bottone", command=lambda: quit_program(), height=4)
 button.pack()
 
 # Set the color and size for drawing
@@ -67,7 +67,7 @@ def on_mouse_move(event):
         latency = time.time() - start
         do_one_time = False
         #print(latency)
-        root.after(6000, lambda: quit_program())
+        root.after(15000, lambda: quit_program())
 
 
     x = event.x

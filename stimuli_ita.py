@@ -20,17 +20,17 @@ participant = sys.argv[1]
 now = datetime.now()
 date_hour = now.strftime("_%d-%m-%Y_%H:%M:%S")
 participant_dir = participant + str(date_hour)
-path_folder_participant = "/home/icub/Desktop/Terais/Images/" + participant_dir
+path_folder_participant = "/home/icub/Desktop/Terais/Immagini/" + participant_dir
 os.mkdir(path_folder_participant)
 
 seq = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]  # 0 is ambulance, 1 is owl, 2 is flower
 random.shuffle(seq)
-categories = ['Ambulance', 'Tractor', 'Owl',
-              'Train', 'Sheep', 'Light Bulb',
-              'Lion', 'Birthday Cake',
-              'Bee', 'Mermaid', 'Flower',
-              'Spider', 'Leaf', 'Pizza',
-              'Face', 'Bus', 'Palm Three']
+categories = ['Ambulanza', 'Trattore', 'Gufo',
+              'Treno', 'Pecora', 'Lampadina',
+              'Leone', 'Torta Di Compleanno',
+              'Ape', 'Sirena Di Mare', 'Fiore',
+              'Ragno', 'Foglia', 'Pizza',
+              'Volto', 'Bus', 'Palma']
 
 
 number = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
@@ -39,7 +39,7 @@ button = []
 global win
 
 ####### CHANGE THE PATH
-script_path = "/home/icub/Desktop/Terais/drawing.py"
+script_path = "/home/icub/Desktop/Terais/drawing_ita.py"
 
 drawing_enjoyment = 0
 drawing_frequency = 0
@@ -55,8 +55,8 @@ number_of_strokes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
 def drawing_questions(n):
-    text = visual.TextStim(win, text="How difficult it was to draw the " + categories[n] + "? \n"
-                            "(1 - not difficult, 7 - extremely difficult)", color=(1, 1, 1),
+    text = visual.TextStim(win, text="Quanto è stato difficile disegnare la categoria: " + categories[n] + "? \n"
+                            "(1 - per nulla difficile, 7 - estremamente difficile)", color=(1, 1, 1),
                            pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
@@ -87,8 +87,8 @@ def drawing_questions(n):
     myMouse.clickReset(buttons)
 
 
-    text = visual.TextStim(win, text="How much did you enjoy drawing the " + categories[n] + "? \n"
-                            "(1 - not enjoyed, 7 - extremely enjoyed)",
+    text = visual.TextStim(win, text="Quanto ti è piaciuto disegnare la categoria: " + categories[n] + "? \n"
+                            "(1 - per niente piaciuto, 7 - estremamente piaciuto)",
                            color=(1, 1, 1), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
@@ -119,8 +119,8 @@ def drawing_questions(n):
     myMouse.clickReset(buttons)
 
 
-    text = visual.TextStim(win, text="How much do you like your drawing of the " + categories[n] + "? \n"
-                            "(1 - not liked, 7 - liked a lot)",
+    text = visual.TextStim(win, text="Quanto ti piace il disegno che hai realizzato della categoria: " + categories[n] + "? \n"
+                            "(1 - per niente, 7 - estremamente)",
                            color=(1, 1, 1), pos=(0.0, 15.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
@@ -180,7 +180,7 @@ def drawing_activity(i):
 
     configure()
 
-    text = visual.TextStim(win, text="Now please answer to some questions. \n\nClick to continue", color=(1, 1, 1), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Ora rispondi ad alcune domande, per favore. \n\nClicca per continuare", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
     win.flip()
@@ -194,7 +194,7 @@ def drawing_activity(i):
 
 def drawing_task(n):
 
-    text = visual.TextStim(win, text="Are you ready to draw? \n\nClick to continue", color=(1, 1, 1), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Sei pronto/a per disegnare? \n\nClicca per continuare", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
     win.flip()
@@ -205,7 +205,7 @@ def drawing_task(n):
     myMouse.clickReset(buttons)
 
 
-    text = visual.TextStim(win, text="Please draw with your finger the...\n", color=(1, 1, 1), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Per favore disegna con il tuo dito la categoria...\n", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
 
     text2 = visual.TextStim(win, text=categories[n], color=(1, -0.7, -0.7), pos=(0.0, -1.0),
@@ -228,7 +228,7 @@ def drawing_task(n):
 def artistic_questions():
     global drawing_enjoyment, drawing_frequency, drawing_percentage
 
-    text = visual.TextStim(win, text="How much do you enjoy free-hand drawing? \n (1 - extremely little, 7 - extremely much)", color=(1, 1, 1),
+    text = visual.TextStim(win, text="Quanto ti piace disegnare a mano libera?\n(1 - estremamente poco, 7 - estremamente tanto)", color=(1, 1, 1),
                            pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
 
@@ -257,7 +257,7 @@ def artistic_questions():
     buttons = myMouse.getPressed()
     myMouse.clickReset(buttons)
 
-    text = visual.TextStim(win, text="How often do you draw sketches? \n (1 - extremely little, 7 - extremely much)", color=(1, 1, 1),
+    text = visual.TextStim(win, text="Quanto spesso realizzi disegni a mano libera?\n(1 - estremamente poco, 7 - estremamente tanto)", color=(1, 1, 1),
                            pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
 
@@ -286,9 +286,9 @@ def artistic_questions():
     buttons = myMouse.getPressed()
     myMouse.clickReset(buttons)
 
-    text = visual.TextStim(win, text="Imagine other 100 people drawing the same sketches as yours: \n"
-                                     " how many of them do you think will draw better than you? \n "
-                                     "(0% - almost no one, 100% - almost everyone)",
+    text = visual.TextStim(win, text="Immagina altre 100 persone disegnare le tue stesse immagini:\n"
+                                     "quante di loro pensi che potrebbero realizzarle meglio di te?\n "
+                                     "(0% - praticamente nessuno, 100% - praticamente tutti)",
                            color=(1, 1, 1), pos=(0.0, 11.0), colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center",
                            wrapWidth=500)
     text.draw()
@@ -391,10 +391,10 @@ def configure():
 def main():
     configure()
 
-    text = visual.TextStim(win, text="Welcome!\nWe will ask you to draw several pictures\n"
-                                     "and then answer some simple questions.\n"
-                                     "Are you ready? "
-                                     " \n\nClick to continue", color=(1, 1, 1), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Benvenuto/a!\nTi chiederemo di disegnare diverse immagini \n"
+                                     "e poi di rispondere ad alcune semplici domande.\n"
+                                     "Sei pronto/a? "
+                                     " \n\nClicca per continuare", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
     win.flip()
@@ -546,7 +546,7 @@ def main():
 
 
 
-    text = visual.TextStim(win, text="Thank you very much!", color=(1, 1, 1), pos=(0.0, 11.0),
+    text = visual.TextStim(win, text="Grazie mille per il tuo contributo!", color=(1, 1, 1), pos=(0.0, 11.0),
                            colorSpace='rgb', bold=False, height=3.5, anchorHoriz="center", wrapWidth=500)
     text.draw()
     win.flip()
